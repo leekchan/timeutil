@@ -11,10 +11,13 @@ func abs(v time.Duration) time.Duration {
 	return v
 }
 
+// Timedelta represents a duration between two dates.
+// All fields are optional and default to 0. You can initialize any type of timedelta by specifying field values which you want to use.
 type Timedelta struct {
 	days, seconds, microseconds, milliseconds, minutes, hours, weeks time.Duration
 }
 
+// Add returns the Timedelta t+t2.
 func (t *Timedelta) Add(t2 *Timedelta) Timedelta {
 	return Timedelta{
 		days:         t.days + t2.days,
@@ -27,6 +30,7 @@ func (t *Timedelta) Add(t2 *Timedelta) Timedelta {
 	}
 }
 
+// Subtract returns the Timedelta t-t2.
 func (t *Timedelta) Subtract(t2 *Timedelta) Timedelta {
 	return Timedelta{
 		days:         t.days - t2.days,
@@ -39,6 +43,7 @@ func (t *Timedelta) Subtract(t2 *Timedelta) Timedelta {
 	}
 }
 
+// Abs returns the absolute value of t
 func (t *Timedelta) Abs() Timedelta {
 	return Timedelta{
 		days:         abs(t.days),
@@ -51,6 +56,7 @@ func (t *Timedelta) Abs() Timedelta {
 	}
 }
 
+// Duration() returns time.Duration. time.Duration can be added to time.Date.
 func (t *Timedelta) Duration() time.Duration {
 	return t.days*24*time.Hour +
 		t.seconds*time.Second +
@@ -61,6 +67,7 @@ func (t *Timedelta) Duration() time.Duration {
 		t.weeks*7*24*time.Hour
 }
 
+// String returns a string representing the Timedelta's duration in the form "72h3m0.5s".
 func (t *Timedelta) String() string {
 	return t.Duration().String()
 }
