@@ -216,6 +216,6 @@ fmt.Println(str) // "작성일 : Thu Jul 02 03:24:30 PM 2015"
 ## TODO
 
 * Locale support
-* Strptime - a function which returns a Date parsed according to a format string
+* Strptime - a function which returns a time.Date parsed according to a format string
 * Auto date parser - a generic string parser which is able to parse most known formats to represent a date
 * And other useful features...
