@@ -124,7 +124,7 @@ func Strftime(t *time.Time, format string) string {
 				case 'z':
 					result += t.Format("-0700")
 				case 'Z':
-					result += t.Location().String()
+					result += t.Format("MST")
 				case 'j':
 					result += fmt.Sprintf("%03d", t.YearDay())
 				case 'U':

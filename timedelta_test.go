@@ -14,14 +14,14 @@ func AssertEqual(t *testing.T, x, y interface{}) {
 
 func TestTimedelta(t *testing.T) {
 	base := time.Date(1980, 1, 6, 0, 0, 0, 0, time.UTC)
-	result := base.Add((&Timedelta{days: 1, seconds: 66355, weeks: 1722}).Duration())
+	result := base.Add((&Timedelta{Days: 1, Seconds: 66355, Weeks: 1722}).Duration())
 	AssertEqual(t, result.String(), "2013-01-07 18:25:55 +0000 UTC")
 
-	result = result.Add((&Timedelta{microseconds: 3, milliseconds: 10, minutes: 1}).Duration())
+	result = result.Add((&Timedelta{Microseconds: 3, Milliseconds: 10, Minutes: 1}).Duration())
 	AssertEqual(t, result.String(), "2013-01-07 18:26:55.010003 +0000 UTC")
 
-	td := Timedelta{days: 10, minutes: 17, seconds: 56}
-	td2 := Timedelta{days: 15, minutes: 13, seconds: 42}
+	td := Timedelta{Days: 10, Minutes: 17, Seconds: 56}
+	td2 := Timedelta{Days: 15, Minutes: 13, Seconds: 42}
 	td = td.Add(&td2)
 
 	base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
@@ -35,7 +35,7 @@ func TestTimedelta(t *testing.T) {
 
 	AssertEqual(t, td.String(), "240h17m56s")
 
-	td = Timedelta{days: -1, seconds: -1, microseconds: -1, milliseconds: -1, minutes: -1, hours: -1, weeks: -1}
+	td = Timedelta{Days: -1, Seconds: -1, Microseconds: -1, Milliseconds: -1, Minutes: -1, Hours: -1, Weeks: -1}
 	td2 = td
 	td = td.Abs()
 	td = td.Add(&td2)
