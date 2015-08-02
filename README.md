@@ -171,6 +171,8 @@ fmt.Println(result) // "2015-02-04 00:01:01 +0000 UTC"
 
 Strftime formats time.Date according to the directives in the given format string. The directives begins with a percent (%) character.
 
+(Strftime supports unicode format string.)
+
 
 Directive | Meaning | Example
 -------------| ------------- | -------------
@@ -205,6 +207,10 @@ Directive | Meaning | Example
 date := time.Date(2015, 7, 2, 15, 24, 30, 35, time.UTC)
 str := timeutil.Strftime(&date, "%a %b %d %I:%M:%S %p %Y")
 fmt.Println(str) // "Thu Jul 02 03:24:30 PM 2015"
+
+// Unicode support
+str = timeutil.Strftime(&date, "작성일 : %a %b %d %I:%M:%S %p %Y")
+fmt.Println(str) // "작성일 : Thu Jul 02 03:24:30 PM 2015"
 ```
 
 ## TODO
