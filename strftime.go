@@ -3,6 +3,7 @@ package timeutil
 import (
 	"fmt"
 	"time"
+	"strings"
 )
 
 var longDayNames = []string{
@@ -73,8 +74,13 @@ func weekNumber(t *time.Time, char int) int {
 }
 
 // Strftime formats time.Date according to the directives in the given format string. The directives begins with a percent (%) character.
-func Strftime(t *time.Time, format string) string {
-	var result string
+func Strftime(t *time.Time, f string) string {
+	var result []string
+	format := []rune(f)
+
+	add := func(str string) {
+		result = append(result, str)
+	}
 
 	for i := 0; i < len(format); i++ {
 		switch format[i] {
@@ -82,70 +88,70 @@ func Strftime(t *time.Time, format string) string {
 			if i < len(format)-1 {
 				switch format[i+1] {
 				case 'a':
-					result += shortDayNames[t.Weekday()]
+					add(shortDayNames[t.Weekday()])
 				case 'A':
-					result += longDayNames[t.Weekday()]
+					add(longDayNames[t.Weekday()])
 				case 'w':
-					result += fmt.Sprintf("%d", t.Weekday())
+					add(fmt.Sprintf("%d", t.Weekday()))
 				case 'd':
-					result += fmt.Sprintf("%02d", t.Day())
+					add(fmt.Sprintf("%02d", t.Day()))
 				case 'b':
-					result += shortMonthNames[t.Month()]
+					add(shortMonthNames[t.Month()])
 				case 'B':
-					result += longMonthNames[t.Month()]
+					add(longMonthNames[t.Month()])
 				case 'm':
-					result += fmt.Sprintf("%02d", t.Month())
+					add(fmt.Sprintf("%02d", t.Month()))
 				case 'y':
-					result += fmt.Sprintf("%02d", t.Year()%100)
+					add(fmt.Sprintf("%02d", t.Year()%100))
 				case 'Y':
-					result += fmt.Sprintf("%02d", t.Year())
+					add(fmt.Sprintf("%02d", t.Year()))
 				case 'H':
-					result += fmt.Sprintf("%02d", t.Hour())
+					add(fmt.Sprintf("%02d", t.Hour()))
 				case 'I':
 					if t.Hour() == 0 {
-						result += fmt.Sprintf("%02d", 12)
+						add(fmt.Sprintf("%02d", 12))
 					} else if t.Hour() > 12 {
-						result += fmt.Sprintf("%02d", t.Hour()-12)
+						add(fmt.Sprintf("%02d", t.Hour()-12))
 					} else {
-						result += fmt.Sprintf("%02d", t.Hour())
+						add(fmt.Sprintf("%02d", t.Hour()))
 					}
 				case 'p':
 					if t.Hour() < 12 {
-						result += "AM"
+						add("AM")
 					} else {
-						result += "PM"
+						add("PM")
 					}
 				case 'M':
-					result += fmt.Sprintf("%02d", t.Minute())
+					add(fmt.Sprintf("%02d", t.Minute()))
 				case 'S':
-					result += fmt.Sprintf("%02d", t.Second())
+					add(fmt.Sprintf("%02d", t.Second()))
 				case 'f':
-					result += fmt.Sprintf("%06d", t.Nanosecond()/1000)
+					add(fmt.Sprintf("%06d", t.Nanosecond()/1000))
 				case 'z':
-					result += t.Format("-0700")
+					add(t.Format("-0700"))
 				case 'Z':
-					result += t.Format("MST")
+					add(t.Format("MST"))
 				case 'j':
-					result += fmt.Sprintf("%03d", t.YearDay())
+					add(fmt.Sprintf("%03d", t.YearDay()))
 				case 'U':
-					result += fmt.Sprintf("%02d", weekNumber(t, 'U'))
+					add(fmt.Sprintf("%02d", weekNumber(t, 'U')))
 				case 'W':
-					result += fmt.Sprintf("%02d", weekNumber(t, 'W'))
+					add(fmt.Sprintf("%02d", weekNumber(t, 'W')))
 				case 'c':
-					result += t.Format("Mon Jan 2 15:04:05 2006")
+					add(t.Format("Mon Jan 2 15:04:05 2006"))
 				case 'x':
-					result += fmt.Sprintf("%02d/%02d/%02d", t.Month(), t.Day(), t.Year()%100)
+					add(fmt.Sprintf("%02d/%02d/%02d", t.Month(), t.Day(), t.Year()%100))
 				case 'X':
-					result += fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second())
+					add(fmt.Sprintf("%02d:%02d:%02d", t.Hour(), t.Minute(), t.Second()))
 				case '%':
-					result += "%"
+					add("%")
 				}
 				i += 1
 			}
 		default:
-			result += fmt.Sprintf("%c", format[i])
+			add(string(format[i]))
 		}
 	}
 
-	return result
+	return strings.Join(result, "")
 }
