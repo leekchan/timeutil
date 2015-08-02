@@ -35,7 +35,7 @@ td = timeutil.Timedelta{days: 1, seconds: 1, microseconds: 1, milliseconds: 1, m
 
 Duration() returns time.Duration. time.Duration can be added to time.Date.
 
-**Exampels:**
+**Examples:**
 
 ```Go
 base := time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
