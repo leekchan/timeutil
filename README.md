@@ -1,6 +1,7 @@
 # timeutil - useful extensions to the golang's time package
 [![Build Status](https://travis-ci.org/leekchan/timeutil.svg?branch=master)](https://travis-ci.org/leekchan/timeutil)
 [![Coverage Status](https://coveralls.io/repos/leekchan/timeutil/badge.svg?branch=master&service=github)](https://coveralls.io/github/leekchan/timeutil?branch=master)
+[![GoDoc](https://godoc.org/github.com/leekchan/timeutil?status.svg)](https://godoc.org/github.com/leekchan/timeutil)
 
 timeutil provides useful extensions (Timedelta, Strftime, ...) to the golang's time package.
 
