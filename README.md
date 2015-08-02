@@ -5,6 +5,74 @@
 
 timeutil provides useful extensions (Timedelta, Strftime, ...) to the golang's time package.
 
+
+## Quick Start
+
+```
+go get github.com/leekchan/timeutil
+```
+
+example.go
+
+```Go
+package main
+
+import (
+    "fmt"
+    "time"
+
+    "github.com/leekchan/timeutil"
+)
+
+func main() {
+    // Timedelta
+    // A basic usage.
+    base := time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
+    td := timeutil.Timedelta{Days: 10, Minutes: 17, Seconds: 56}
+
+    result := base.Add(td.Duration())
+    fmt.Println(result) // "2015-02-13 00:17:56 +0000 UTC"
+
+    // Operation : Add
+    base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
+
+    td = timeutil.Timedelta{Days: 1, Minutes: 1, Seconds: 1}
+    td2 := timeutil.Timedelta{Days: 2, Minutes: 2, Seconds: 2}
+    td = td.Add(&td2) // td = td + td2
+
+    result = base.Add(td.Duration())
+    fmt.Println(result) // "2015-02-06 00:03:03 +0000 UTC"
+
+    // Operation : Subtract
+    base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
+
+    td = timeutil.Timedelta{Days: 2, Minutes: 2, Seconds: 2}
+    td2 = timeutil.Timedelta{Days: 1, Minutes: 1, Seconds: 1}
+    td = td.Subtract(&td2) // td = td - td2
+
+    result = base.Add(td.Duration())
+    fmt.Println(result) // "2015-02-04 00:01:01 +0000 UTC"
+
+    // Operation : Abs
+    base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
+
+    td = timeutil.Timedelta{Days: 1, Minutes: 1, Seconds: 1}
+    td2 = timeutil.Timedelta{Days: 2, Minutes: 2, Seconds: 2}
+    td = td.Subtract(&td2) // td = td - td2
+    td = td.Abs()          // td = |td|
+
+    result = base.Add(td.Duration())
+    fmt.Println(result) // "2015-02-04 00:01:01 +0000 UTC"
+    
+    
+    // Strftime
+    date := time.Date(2015, 7, 2, 15, 24, 30, 35, time.UTC)
+    str := timeutil.Strftime(&date, "%a %b %d %I:%M:%S %p %Y")
+    fmt.Println(str) // "Thu Jul 02 03:24:30 PM 2015"
+}
+```
+
+
 ## Timedelta
 
 Timedelta represents a duration between two dates. (inspired by python's timedelta)
@@ -13,7 +81,7 @@ Timedelta represents a duration between two dates. (inspired by python's timedel
 
 ```Go
 type Timedelta struct {
-    days, seconds, microseconds, milliseconds, minutes, hours, weeks time.Duration
+    Days, Seconds, Microseconds, Milliseconds, Minutes, Hours, Weeks time.Duration
 }
 ```
 
@@ -24,11 +92,11 @@ All fields are optional and default to 0. You can initialize any type of timedel
 **Examples:**
 
 ```Go
-td := timeutil.Timedelta{days: 10}
-td = timeutil.Timedelta{minutes: 17}
-td = timeutil.Timedelta{seconds: 56}
-td = timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
-td = timeutil.Timedelta{days: 1, seconds: 1, microseconds: 1, milliseconds: 1, minutes: 1, hours: 1, weeks: 1}
+td := timeutil.Timedelta{Days: 10}
+td = timeutil.Timedelta{Minutes: 17}
+td = timeutil.Timedelta{Seconds: 56}
+td = timeutil.Timedelta{Days: 10, Minutes: 17, Seconds: 56}
+td = timeutil.Timedelta{Days: 1, Seconds: 1, Microseconds: 1, Milliseconds: 1, Minutes: 1, Hours: 1, Weeks: 1}
 ```
 
 ### func (t *Timedelta) Duration() time.Duration
@@ -39,10 +107,10 @@ Duration() returns time.Duration. time.Duration can be added to time.Date.
 
 ```Go
 base := time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
-td := timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
+td := timeutil.Timedelta{Days: 10, Minutes: 17, Seconds: 56}
 
 result := base.Add(td.Duration())
-fmt.Println(result) // "2015-02-28 00:31:38 +0000 UTC"
+fmt.Println(result) // "2015-02-13 00:17:56 +0000 UTC"
 ```
 
 ### Operations
@@ -54,13 +122,13 @@ Add returns the Timedelta t+t2.
 **Examples:**
 
 ```Go
-base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
-
-td := timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
-td2 := timeutil.Timedelta{days: 15, minutes: 13, seconds: 42}
-td = td.Add(&td2)
+base := time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
+td := timeutil.Timedelta{Days: 1, Minutes: 1, Seconds: 1}
+td2 := timeutil.Timedelta{Days: 2, Minutes: 2, Seconds: 2}
+td = td.Add(&td2) // td = td + td2
 
 result = base.Add(td.Duration())
+fmt.Println(result) // "2015-02-06 00:03:03 +0000 UTC"
 ```
 
 #### func (t *Timedelta) Subtract(t2 *Timedelta) Timedelta
@@ -70,13 +138,14 @@ Subtract returns the Timedelta t-t2.
 **Examples:**
 
 ```Go
-base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
+base := time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
 
-td := timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
-td2 := timeutil.Timedelta{days: 15, minutes: 13, seconds: 42}
-td = td.Subtract(&td2)
+td := timeutil.Timedelta{Days: 2, Minutes: 2, Seconds: 2}
+td2 := timeutil.Timedelta{Days: 1, Minutes: 1, Seconds: 1}
+td = td.Subtract(&td2) // td = td - td2
 
 result = base.Add(td.Duration())
+fmt.Println(result) // "2015-02-04 00:01:01 +0000 UTC"
 ```
 
 #### func (t *Timedelta) Abs() Timedelta
@@ -86,8 +155,15 @@ Abs returns the absolute value of t
 **Examples:**
 
 ```Go
-td := timeutil.Timedelta{days: -10, minutes: -17, seconds: -56}
-td = td.Abs(&td)
+base := time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
+
+td := timeutil.Timedelta{Days: 1, Minutes: 1, Seconds: 1}
+td2 := timeutil.Timedelta{Days: 2, Minutes: 2, Seconds: 2}
+td = td.Subtract(&td2) // td = td - td2
+td = td.Abs() // td = |td|
+
+result = base.Add(td.Duration())
+fmt.Println(result) // "2015-02-04 00:01:01 +0000 UTC"
 ```
 
 
@@ -123,6 +199,13 @@ Directive | Meaning | Example
 %X | Time representation. | 21:30:00
 %% | A literal '%' character. | %
 
+**Examples:**
+
+```Go
+date := time.Date(2015, 7, 2, 15, 24, 30, 35, time.UTC)
+str := timeutil.Strftime(&date, "%a %b %d %I:%M:%S %p %Y")
+fmt.Println(str) // "Thu Jul 02 03:24:30 PM 2015"
+```
 
 ## TODO
 
