@@ -92,7 +92,7 @@ Strftime formats time.Date according to the directives in the given format strin
 
 
 Directive | Meaning | Example
--- | ------------------------------------- | ------------
+-------------| ------------- | -------------
 %a | Weekday as locale’s abbreviated name. | Sun, Mon, ..., Sat
 %A | Weekday as locale’s full name.     | Sunday, Monday, ..., Saturday 
 %w | Weekday as a decimal number, where 0 is Sunday and 6 is Saturday | 0, 1, ..., 6     
