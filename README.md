@@ -69,6 +69,10 @@ func main() {
     date := time.Date(2015, 7, 2, 15, 24, 30, 35, time.UTC)
     str := timeutil.Strftime(&date, "%a %b %d %I:%M:%S %p %Y")
     fmt.Println(str) // "Thu Jul 02 03:24:30 PM 2015"
+    
+    // Unicode support
+    str = timeutil.Strftime(&date, "작성일 : %a %b %d %I:%M:%S %p %Y")
+    fmt.Println(str) // "작성일 : Thu Jul 02 03:24:30 PM 2015"
 }
 ```
 
