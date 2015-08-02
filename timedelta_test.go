@@ -22,13 +22,13 @@ func TestTimedelta(t *testing.T) {
 
 	td := Timedelta{days: 10, minutes: 17, seconds: 56}
 	td2 := Timedelta{days: 15, minutes: 13, seconds: 42}
-	td.Add(&td2)
+	td = td.Add(&td2)
 
 	base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
 	result = base.Add(td.Duration())
 	AssertEqual(t, result.String(), "2015-02-28 00:31:38 +0000 UTC")
 
-	td.Subtract(&td2)
+	td = td.Subtract(&td2)
 
 	result = base.Add(td.Duration())
 	AssertEqual(t, result.String(), "2015-02-13 00:17:56 +0000 UTC")
@@ -37,7 +37,7 @@ func TestTimedelta(t *testing.T) {
 
 	td = Timedelta{days: -1, seconds: -1, microseconds: -1, milliseconds: -1, minutes: -1, hours: -1, weeks: -1}
 	td2 = td
-	td.Abs()
-	td.Add(&td2)
+	td = td.Abs()
+	td = td.Add(&td2)
 	AssertEqual(t, td.String(), "0")
 }
