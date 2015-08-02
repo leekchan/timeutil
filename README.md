@@ -24,11 +24,11 @@ All fields are optional and default to 0. You can initialize any type of timedel
 **Examples:**
 
 ```Go
-td := Timedelta{days: 10}
-td = Timedelta{minutes: 17}
-td = Timedelta{seconds: 56}
-td = Timedelta{days: 10, minutes: 17, seconds: 56}
-td = Timedelta{days: 1, seconds: 1, microseconds: 1, milliseconds: 1, minutes: 1, hours: 1, weeks: 1}
+td := timeutil.Timedelta{days: 10}
+td = timeutil.Timedelta{minutes: 17}
+td = timeutil.Timedelta{seconds: 56}
+td = timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
+td = timeutil.Timedelta{days: 1, seconds: 1, microseconds: 1, milliseconds: 1, minutes: 1, hours: 1, weeks: 1}
 ```
 
 ### func (t *Timedelta) Duration() time.Duration
@@ -39,7 +39,7 @@ Duration() returns time.Duration. time.Duration can be added to time.Date.
 
 ```Go
 base := time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
-td := Timedelta{days: 10, minutes: 17, seconds: 56}
+td := timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
 
 result := base.Add(td.Duration())
 fmt.Println(result) // "2015-02-28 00:31:38 +0000 UTC"
@@ -56,8 +56,8 @@ Add returns the Timedelta t+t2.
 ```Go
 base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
 
-td := Timedelta{days: 10, minutes: 17, seconds: 56}
-td2 := Timedelta{days: 15, minutes: 13, seconds: 42}
+td := timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
+td2 := timeutil.Timedelta{days: 15, minutes: 13, seconds: 42}
 td = td.Add(&td2)
 
 result = base.Add(td.Duration())
@@ -67,11 +67,13 @@ result = base.Add(td.Duration())
 
 Subtract returns the Timedelta t-t2.
 
+**Examples:**
+
 ```Go
 base = time.Date(2015, 2, 3, 0, 0, 0, 0, time.UTC)
 
-td := Timedelta{days: 10, minutes: 17, seconds: 56}
-td2 := Timedelta{days: 15, minutes: 13, seconds: 42}
+td := timeutil.Timedelta{days: 10, minutes: 17, seconds: 56}
+td2 := timeutil.Timedelta{days: 15, minutes: 13, seconds: 42}
 td = td.Subtract(&td2)
 
 result = base.Add(td.Duration())
@@ -81,8 +83,10 @@ result = base.Add(td.Duration())
 
 Abs returns the absolute value of t
 
+**Examples:**
+
 ```Go
-td := Timedelta{days: -10, minutes: -17, seconds: -56}
+td := timeutil.Timedelta{days: -10, minutes: -17, seconds: -56}
 td = td.Abs(&td)
 ```
 
