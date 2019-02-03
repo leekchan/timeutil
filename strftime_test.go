@@ -26,8 +26,8 @@ func TestStrftime(t *testing.T) {
 
 	date = time.Date(1989, 12, 31, 0, 24, 30, 35000, time.UTC)
 	AssertEqual(t, Strftime(&date, "%I"), "12")
-	
+
 	AssertEqual(t, Strftime(&date, "%a %A %w %d %b %B %"), "Sun Sunday 0 31 Dec December ")
-	
+
 	AssertEqual(t, Strftime(&date, "작성일 : %a %A %w %d %b %B %"), "작성일 : Sun Sunday 0 31 Dec December ")
 }
