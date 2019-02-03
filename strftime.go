@@ -2,8 +2,8 @@ package timeutil
 
 import (
 	"fmt"
-	"time"
 	"strings"
+	"time"
 )
 
 var longDayNames = []string{
